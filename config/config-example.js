@@ -1,4 +1,4 @@
-// The server port - the port to run Pokemon Showdown under
+// The server port - the port to run Pokemon Showdown under h
 //exports.port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 //exports.bindaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 exports.port = 8000;
@@ -228,7 +228,8 @@ exports.replsocketmode = 0700;
 //     - tournamentsmanagement: enable/disable tournaments.
 exports.groupsranking = [' ', '€', '+', '♫', '©', '%', '☆', '@', '\u2605', '#', '&','£', 'ℜ', '~', '®', '$'],
 exports.groups = {
-        '$': {
+        { 
+		symbol: '$',
                 id: "fondateur",
                 name: "Fondateur",
                 root: true,
@@ -236,7 +237,8 @@ exports.groups = {
                 globalonly: true,
                 rank: 15
     },
-    '®': {
+    {		
+    		symbol: '®',
                 id: "robot",
                 name: "Robot",
                 root: true,
@@ -244,7 +246,8 @@ exports.groups = {
                 globalonly: true,
                 rank: 14
     },
-        '~': {
+    {
+        	 symbol: '~',
                 id: "admin",
                 name: "Administrator",
                 root: true,
@@ -252,7 +255,8 @@ exports.groups = {
                 globalonly: true,
                 rank: 13
     },
-    'ℜ': {
+   	{
+   		symbol:  'ℜ',
                 id: "royal",
         name: "Membre Royal",
         inherit: '&',
@@ -269,7 +273,8 @@ exports.groups = {
         tournamentsmanagement: true,
         rank: 12
         },
-        '£': {
+        {
+        	symbol: '£',
                 id: "codeur",
         name: "Codeur",
         inherit: '&',
@@ -290,7 +295,8 @@ exports.groups = {
         console: true, // DONNE ACCES A LA CONSOLE DU SERVEUR AUX CODEURS
         rank: 11
         },
-        '&': {
+        {
+        	symbol: '&',
                 id: "leader",
                 name: "Leader",
                 inherit: '@',
@@ -308,7 +314,8 @@ exports.groups = {
                 tournamentsmanagement: true,
                 rank: 10
         },
-        '#': {
+        {
+        	symbol: '#', 
                 id: "owner",
                 name: "Room Owner",
                 inherit: '@',
@@ -322,35 +329,33 @@ exports.groups = {
                 tournamentsmanagement: true,
                 rank: 9
         },
-        '\u2605': {
-                id: "player",
-                name: "Player",
-                inherit: '+',
-                roomvoice: true,
-                modchat: true,
-                broadcast: true,
-                roomonly: true,
-                privateroom: true,
-                rank: 8
-        },
-        '@': {
-                id: "mod",
-                name: "Moderator",
-                inherit: '%',
-                jurisdiction: 'u',
-                ban: true,
-                broadcast: true,
-                modchat: true,
-                warn: true,
-                mute: true,
-                roomvoice: true,
-                forcerename: true,
-                ip: true,
-                alts: '@u',
-                tournaments: true,
-                rank: 7
-        },
-        '☆': {
+	{
+		symbol: '\u2605',
+		id: "player",
+		name: "Player",
+		inherit: '+',
+		roomvoice: true,
+		modchat: true,
+		roomonly: true,
+		privateroom: true,
+		joinbattle: true
+	},
+	{
+		symbol: '@',
+		id: "mod",
+		name: "Moderator",
+		inherit: '%',
+		jurisdiction: 'u',
+		ban: true,
+		modchat: true,
+		roomvoice: true,
+		forcerename: true,
+		ip: true,
+		alts: '@u',
+		tournaments: true
+	},
+        {
+        	symbol: '☆',
         id: "maitre",
         name: "Maître",
                 inherit: '@',
@@ -365,27 +370,29 @@ exports.groups = {
                 tournaments: true,
         rank: 6
         },
-        '%': {
-                id: "driver",
-                name: "Driver",
-                inherit: '+',
-                jurisdiction: 'u',
-                announce: true,
-                warn: true,
-                broadcast: true,
-                kick: true,
-                mute: true,
-                lock: true,
-                forcerename: true,
-                timer: true,
-                modlog: true,
-                alts: '%u',
-                bypassblocks: 'u%@&~',
-                receiveauthmessages: true,
-                tournamentsmoderation: true,
-                rank: 5
-        },
-        '©': {
+	{
+		symbol: '%',
+		id: "driver",
+		name: "Driver",
+		inherit: '+',
+		jurisdiction: 'u',
+		announce: true,
+		warn: true,
+		kick: true,
+		mute: true,
+		lock: true,
+		forcerename: true,
+		timer: true,
+		modlog: true,
+		alts: '%u',
+		bypassblocks: 'u%@&~',
+		receiveauthmessages: true,
+		tournamentsmoderation: true,
+		jeopardy: true,
+		joinbattle: true
+	},
+        {
+        	symbol: '©',
         id: "c4",
         name: "Conseil 4",
                 inherit: '%',
@@ -405,7 +412,8 @@ exports.groups = {
                 tournamentsmoderation: true,
         rank: 4
         },
-        '♫': {
+        {
+        	symbol: '♫',
                 id: "anim",
                 name: "Animateur",
                 inherit: '+',
@@ -415,15 +423,15 @@ exports.groups = {
                 modchat: true,
                 rank: 3
         },
-        '+': {
-                id: "voice",
-                name: "Voice",
-                inherit: ' ',
-                broadcast: true,
-                joinbattle: true,
-                rank: 2
-        },
-        '€': {
+	{
+		symbol: '+',
+		id: "voice",
+		name: "Voice",
+		inherit: ' ',
+		broadcast: true
+	},
+        {
+        	symbol: '€',
         id: "champion",
         name: "Champion",
                 inherit: '+',
