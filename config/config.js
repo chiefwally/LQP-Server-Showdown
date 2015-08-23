@@ -15,7 +15,7 @@ exports.proxyip = ['127.0.0.0/8'];
 //   in every Random Battle team.
 exports.potd = '';
 exports.superAdmins = {
-	"wallythebully": 1
+	"absolsweep": 1
 };
 
 // crash guard - write errors to log file instead of crashing
@@ -226,102 +226,44 @@ exports.replsocketmode = 0700;
 //     - tournaments: creating tournaments (/tour new, settype etc.)
 //     - tournamentsmoderation: /tour dq, autodq, end etc.
 //     - tournamentsmanagement: enable/disable tournaments.
-exports.groupsranking = [' ', '€', '+', '♫', '©', '%', '☆', '@', '\u2605', '#', '&','£', 'ℜ', '~', '®', '$'],
-exports.groups = [
-        { 
-		symbol: '$',
-                id: "fondateur",
-                name: "Fondateur",
-                root: true,
-                broadcast: true,
-                globalonly: true,
-    	},
-    	{		
-    		symbol: '®',
-                id: "robot",
-                name: "Robot",
-                root: true,
-                broadcast: true,
-                globalonly: true,
-        },
-        {
-        	 symbol: '~',
-                id: "admin",
-                name: "Administrator",
-                root: true,
-                broadcast: true,
-                globalonly: true,
-        },
-   	{
-   		symbol:  'ℜ',
-                id: "royal",
-        name: "Membre Royal",
-        inherit: '&',
-        jurisdiction: '&u',
-        promote: 'u',
-        forcewin: true,
-        declare: true,
-                gdeclare: true,
-                broadcast: true,
-        modchatall: true,
-        rangeban: true,
-        potd: true,
-        disableladder: true,
-        tournamentsmanagement: true,
-        },
-        {
-        	symbol: '£',
-                id: "codeur",
-        name: "Codeur",
-        inherit: '&',
-        jurisdiction: '&u',
-        hotpatch: true,
-        promote: 'u',
-        forcewin: true,
-        roommod: true,
-        roomdriver: true,
-        declare: true,
-                gdeclare: true,
-        modchatall: true,
-        rangeban: true,
-        potd: true,
-        disableladder: true,
-        tournamentsmanagement: true,
-        broadcast: true,
-        console: true, // DONNE ACCES A LA CONSOLE DU SERVEUR AUX CODEURS
-        },
-        {
-        	symbol: '&',
-                id: "leader",
-                name: "Leader",
-                inherit: '@',
-                jurisdiction: '@u',
-                promote: 'u',
-                forcewin: true,
-                declare: true,
-                gdeclare: true,
-                broadcast: true,
-                modchatall: true,
-                rangeban: true,
-                potd: true,
-                disableladder: true,
-                globalonly: true,
-                tournamentsmanagement: true,
-        },
-        {
-        	symbol: '#', 
-                id: "owner",
-                name: "Room Owner",
-                inherit: '@',
-                jurisdiction: 'u',
-                roommod: true,
-                roomdriver: true,
-                declare: true,
-                broadcast: true,
-                modchatall: true,
-                roomonly: true,
-                tournamentsmanagement: true,
-        },
+exports.grouplist = [
+	{
+		symbol: '~',
+		id: "admin",
+		name: "Administrator",
+		root: true,
+		globalonly: true
+	},
+	{
+		symbol: '&',
+		id: "leader",
+		name: "Leader",
+		inherit: '@',
+		jurisdiction: '@u',
+		promote: 'u',
+		forcewin: true,
+		declare: true,
+		modchatall: true,
+		rangeban: true,
+		potd: true,
+		disableladder: true,
+		globalonly: true,
+		tournamentsmanagement: true,
+		rank: 7
+	},
+	{
+		symbol: '#',
+		id: "owner",
+		name: "Room Owner",
+		inherit: '@',
+		jurisdiction: 'u',
+		roommod: true,
+		roomdriver: true,
+		declare: true,
+		modchatall: true,
+		roomonly: true,
+		tournamentsmanagement: true
+	},
 	{
 		symbol: '\u2605',
 		id: "player",
@@ -347,26 +289,11 @@ exports.groups = [
 		alts: '@u',
 		tournaments: true
 	},
-        {
-        	symbol: '☆',
-        	id: "maitre",
-        	name: "Maître",
-                inherit: '@',
-                jurisdiction: 'u',
-                ban: true,
-                modchat: true,
-                broadcast: true,
-                roomvoice: true,
-                forcerename: true,
-                ip: true,
-                alts: '@u',
-                tournaments: true,
-        },
 	{
 		symbol: '%',
 		id: "driver",
 		name: "Driver",
-		inherit: '+',
+		inherit: '\u2295',
 		jurisdiction: 'u',
 		announce: true,
 		warn: true,
@@ -383,54 +310,42 @@ exports.groups = [
 		jeopardy: true,
 		joinbattle: true
 	},
-        {
-        	symbol: '©',
-        	id: "c4",
-        	name: "Conseil 4",
-                inherit: '%',
-                jurisdiction: 'u',
-                announce: true,
-                warn: true,
-                kick: true,
-                mute: true,
-                broadcast: true,
-                lock: true,
-                forcerename: true,
-                timer: true,
-                modlog: true,
-                alts: '%u',
-                bypassblocks: 'u%@&~',
-                receiveauthmessages: true,
-                tournamentsmoderation: true,
-        },
-        {
-        	symbol: '♫',
-                id: "anim",
-                name: "Animateur",
-                inherit: '+',
-                announce: true,
-                broadcast: true,
-                declare: true,
-                modchat: true,
-        },
+	{
+		symbol: '\u00A5',
+		id: "youtuber",
+		name: "Youtuber",
+		inherit: '\u2295',
+		jurisdiction: 'u',
+		youtube: true,
+		warn: true,
+		kick: true
+	},
+	{
+		symbol: '\u2295',
+		id: "operator",
+		name: "Operator",
+		inherit: '+',
+		tournamentsmoderation: true,
+		tournaments: true
+	},
 	{
 		symbol: '+',
 		id: "voice",
 		name: "Voice",
+		inherit: '$',
+		joinbattle: true,
+		broadcast: true
+	},
+	{
+		symbol: '$',
+		id: "destacado",
+		name: "Destacado",
 		inherit: ' ',
 		broadcast: true
 	},
-        {
-        	symbol: '€',
-        	id: "champion",
-        	name: "Champion",
-                inherit: '+',
-                broadcast: true,
-                joinbattle: true,
-        },
-        {
-        	symbol: ' ',
-                ip: 's',
-                alts: 's',
-        }
-]:
+	{
+		symbol: ' ',
+		ip: 's',
+		alts: 's'
+	}
+];
