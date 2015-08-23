@@ -227,7 +227,7 @@ exports.replsocketmode = 0700;
 //     - tournamentsmoderation: /tour dq, autodq, end etc.
 //     - tournamentsmanagement: enable/disable tournaments.
 exports.groupsranking = [' ', '€', '+', '♫', '©', '%', '☆', '@', '\u2605', '#', '&','£', 'ℜ', '~', '®', '$'],
-exports.groups = {
+exports.groups = [
         { 
 		symbol: '$',
                 id: "fondateur",
@@ -235,26 +235,23 @@ exports.groups = {
                 root: true,
                 broadcast: true,
                 globalonly: true,
-                rank: 15
-    },
-    {		
+    	},
+    	{		
     		symbol: '®',
                 id: "robot",
                 name: "Robot",
                 root: true,
                 broadcast: true,
                 globalonly: true,
-                rank: 14
-    },
-    {
+        },
+        {
         	 symbol: '~',
                 id: "admin",
                 name: "Administrator",
                 root: true,
                 broadcast: true,
                 globalonly: true,
-                rank: 13
-    },
+        },
    	{
    		symbol:  'ℜ',
                 id: "royal",
@@ -271,7 +268,6 @@ exports.groups = {
         potd: true,
         disableladder: true,
         tournamentsmanagement: true,
-        rank: 12
         },
         {
         	symbol: '£',
@@ -293,7 +289,6 @@ exports.groups = {
         tournamentsmanagement: true,
         broadcast: true,
         console: true, // DONNE ACCES A LA CONSOLE DU SERVEUR AUX CODEURS
-        rank: 11
         },
         {
         	symbol: '&',
@@ -312,7 +307,6 @@ exports.groups = {
                 disableladder: true,
                 globalonly: true,
                 tournamentsmanagement: true,
-                rank: 10
         },
         {
         	symbol: '#', 
@@ -327,7 +321,6 @@ exports.groups = {
                 modchatall: true,
                 roomonly: true,
                 tournamentsmanagement: true,
-                rank: 9
         },
 	{
 		symbol: '\u2605',
@@ -356,8 +349,8 @@ exports.groups = {
 	},
         {
         	symbol: '☆',
-        id: "maitre",
-        name: "Maître",
+        	id: "maitre",
+        	name: "Maître",
                 inherit: '@',
                 jurisdiction: 'u',
                 ban: true,
@@ -368,7 +361,6 @@ exports.groups = {
                 ip: true,
                 alts: '@u',
                 tournaments: true,
-        rank: 6
         },
 	{
 		symbol: '%',
@@ -393,8 +385,8 @@ exports.groups = {
 	},
         {
         	symbol: '©',
-        id: "c4",
-        name: "Conseil 4",
+        	id: "c4",
+        	name: "Conseil 4",
                 inherit: '%',
                 jurisdiction: 'u',
                 announce: true,
@@ -410,7 +402,6 @@ exports.groups = {
                 bypassblocks: 'u%@&~',
                 receiveauthmessages: true,
                 tournamentsmoderation: true,
-        rank: 4
         },
         {
         	symbol: '♫',
@@ -421,7 +412,6 @@ exports.groups = {
                 broadcast: true,
                 declare: true,
                 modchat: true,
-                rank: 3
         },
 	{
 		symbol: '+',
@@ -432,15 +422,15 @@ exports.groups = {
 	},
         {
         	symbol: '€',
-        id: "champion",
-        name: "Champion",
+        	id: "champion",
+        	name: "Champion",
                 inherit: '+',
                 broadcast: true,
                 joinbattle: true,
-        rank: 1
         },
-        ' ': {
+        {
+        	symbol: ' ',
                 ip: 's',
                 alts: 's',
-                rank: 0
         }
+]:
