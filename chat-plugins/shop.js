@@ -9,7 +9,7 @@ exports.commands = {
 	shop: function (target, room, user) {
 		if (!this.canBroadcast()) return false;
 		this.sendReplyBox(
-			'<center><h3><b><u>Tienda del servidor</u></b></h3><table border="1" cellspacing="0" cellpadding="3" target="_blank"><tbody>' +
+			'<center><h3><b><u>Boutique du serveur:</u></b></h3><table border="1" cellspacing="0" cellpadding="3" target="_blank"><tbody>' +
 			'<tr><th>Art&iacute;culo</th><th>Descripci&oacute;n</th><th>Coste</th></tr>' +
 			'<tr><td>Chatroom</td><td>Acheter une room. Celle-ci peut être privée ou publique en fonction du motif de sa création. </td><td>10000</td></tr>' +
 			'<tr><td>CustomTC</td><td>Acheter une carte de dresseur personalisée (à partir de code html). Contacter un administrateur si le code est trop long pour un message.</td><td>8000</td></tr>' +
