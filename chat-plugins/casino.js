@@ -72,7 +72,7 @@ function checkBingo(room) {
 		Shop.giveMoney(toId(winners[winners.length - 1]), bingoPrize);
 		if (winners.length > 1) winData += ' y ';
 		winData += getUserName(winners[winners.length - 1]);
-		room.addRaw("<div class=\"broadcast-blue\"><b>Han cantado Bingo!</b><br />Felicidades a " + winData + " por ganar. Premio: " + bingoPrize + " pd</div>");
+		room.addRaw("<div class=\"broadcast-blue\"><b>Ils ont crié Bingo!</b><br />Félicitations à  " + winData + " pour avoir gangé. Premier prix : " + bingoPrize + " pd</div>");
 		room.update();
 		bingoStatus = false;
 	}
@@ -91,28 +91,28 @@ exports.commands = {
 	
 	nuevobingo: 'newbingo',
 	newbingo: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut être utilisée que dans la salle du Casino");
 		if (!casinoOwners[user.userid] && !this.can(defaultPermission, room)) return false;
-		if (bingoStatus) return this.sendReply("Ya hay un bingo en marcha.");
+		if (bingoStatus) return this.sendReply("Il y a déjà un Bingo en cours.");
 		bingoStatus = true;
 		bingoNumbers = getBingoNumbers().randomize();
 		bingoSaidNumbers = {};
 		actualValue = 0;
 		tables = {};
 		bingoPrize = 0;
-		this.privateModCommand('(' + user.name + ' ha iniciado un juego de Bingo)');
-		room.addRaw("<div class=\"broadcast-blue\"><b>Se ha iniciado un nuevo juego de Bingo!</b><br />Puedes participar por 10 pd con /buytable.</div>");
+		this.privateModCommand('(' + user.name + ' a lancé un jeu de Bingo!)');
+		room.addRaw("<div class=\"broadcast-blue\"><b>On a lancé un nouveau jeu de Bingo!</b><br />Pour participer, achète une grille à 10pd avec la commande /buytable</div>");
 		room.update();
 		var loop = function () {
 			setTimeout(function () {
 				if (!bingoStatus) return;
 				if (actualValue >= bingoNumbers.length) {
 					bingoStatus = false;
-					room.addRaw("<div class=\"broadcast-blue\"><b>El juego de Bingo ha terminado!</b><br />Lamentablemente nadie se había apuntado, así que no hay ganador!</div>");
+					room.addRaw("<div class=\"broadcast-blue\"><b>Le Bingo est terminé!</b><br />Malheureusement personne n'a participé, il n'y a donc pas de gagnants!</div>");
 					room.update();
 					return;
 				}
-				room.add('|c|' + Bot.config.group + Bot.config.name + '|**Juego de Bingo:** Sale el número **' + bingoNumbers[actualValue] + '**');
+				room.add('|c|' + Bot.config.group + Bot.config.name + '|**Bingo:** Numéro tiré : **' + bingoNumbers[actualValue] + '**');
 				bingoSaidNumbers[bingoNumbers[actualValue]] = 1;
 				++actualValue;
 				room.update();
@@ -126,10 +126,10 @@ exports.commands = {
 	comprartablilla: 'buytable',
 	comprartabla: 'buytable',
 	buytable: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
-		if (!bingoStatus) return this.sendReply("No hay ningún bingo en marcha.");
-		if (tables[user.userid]) return this.sendReply("Ya habías comprado una tablilla.");
-		if (Shop.getUserMoney(user.name) < 10) return this.sendReply("No tienes suficiente dinero.");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
+		if (!bingoStatus) return this.sendReply("Il n'y a aucun Bingo en cours.");
+		if (tables[user.userid]) return this.sendReply("Vous avez déjà acheté un ticket de Bingo.");
+		if (Shop.getUserMoney(user.name) < 10) return this.sendReply("Vous n'avez pas assez d'argent.");
 		Shop.removeMoney(user.name, 10);
 		Shop.giveMoney('casino', 5);
 		var numbers = getBingoNumbers().randomize();
@@ -139,7 +139,7 @@ exports.commands = {
 		}
 		tables[user.userid] = cells;
 		bingoPrize += 15;
-		this.sendReply("Has Comprado una tablilla. Para ver su estado usa /bingo");
+		this.sendReply("Vous avez acheté un ticket de Bingo. Pour voir vos nombres, utilisez la commande /bingo.");
 		this.parse('/bingo');
 		checkBingo(room);
 	},
@@ -147,9 +147,9 @@ exports.commands = {
 	vertablilla: 'bingo',
 	tablilla: 'bingo',
 	bingo: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		if (!this.canBroadcast()) return;
-		if (!bingoStatus) return this.sendReply("No hay ningún bingo en marcha.");
+		if (!bingoStatus) return this.sendReply("Il n'y a pas de Bingo en cours.");
 		var targetUserId = user.userid;
 		if (tables[toId(target)]) targetUserId = toId(target);
 		if (tables[targetUserId]) {
@@ -164,7 +164,7 @@ exports.commands = {
 			}
 			html += '</tr></tbody></table><br />';
 		} else {
-			var html = '<b>Juego de bingo:</b> No estás apuntado, puedes hacerlo con /buytable<br /><br />';
+			var html = '<b>Bingo:</b> Vous n\'avez pas acheté de ticket. Vous pouvez en acheter un avec /buytable<br /><br />';
 		}
 		html += '<b>Actual premio: </b>' + bingoPrize + ' pd.';
 		this.sendReplyBox(html);
@@ -172,51 +172,51 @@ exports.commands = {
 	
 	abrirapuestas: 'openbets',
 	openbets: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		if (!casinoOwners[user.userid] && !this.can(defaultPermission, room)) return false;
-		if (tourStatus) return this.sendReply("Ya estaban abiertas las apuestas");
+		if (tourStatus) return this.sendReply("Les paris sont déjà ouverts.");
 		if (!Tournaments.tournaments[room.id]) {
 			forceEndTourBets();
 			tourBets = {};
-			return this.sendReply("No había ningún torneo en la Sala");
+			return this.sendReply("Il n'y a pas de tournois dans la salle.");
 		}
 		tourStatus = true;
-		this.privateModCommand('(' + user.name + ' ha abierto las apuestas para el torneo)');
-		room.addRaw("<div class=\"broadcast-green\"><b>Se han abierto las apuestas para este torneo!</b><br />Puedes apostar por tu favorito por 10, 20 o 30 pd con /tourbet [jugador], [10/20/30].</div>");
+		this.privateModCommand('(' + user.name + ' a ouvert les paris pour le tournoi !)');
+		room.addRaw("<div class=\"broadcast-green\"><b>Les paris on été ouverts pour ce tournoi !</b><br />Vous pouvez parier 10; 20 ou 30pd pour votre joueur favori avec la commande /tourbet [joueur], [10/20/30].</div>");
 		room.update();
 	},
 	
 	cerrarapuestas: 'closebets',
 	closebets: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		if (!casinoOwners[user.userid] && !this.can(defaultPermission, room)) return false;
-		if (!tourStatus) return this.sendReply("Las apuestas no estaban abiertas.");
+		if (!tourStatus) return this.sendReply("Les paris ne sont pas ouverts.");
 		if (!Tournaments.tournaments[room.id]) {
 			forceEndTourBets();
 			tourStatus = false;
 			tourBets = {};
-			return this.sendReply("No había ningún torneo en la Sala. Se han eliminado las apuestas.")
+			return this.sendReply("Il n'y a aucun tournoi dans la salle. Les paris ont été enlevés.")
 		}
 		tourStatus = false;
-		this.privateModCommand('(' + user.name + ' ha cerrado las apuestas para el torneo)');
-		room.addRaw("<div class=\"broadcast-green\"><b>Las apuestas para este torneo se han cerrado!</b><br />Al finalizar el torneo se comprobarán las apuestas.</div>");
+		this.privateModCommand('(' + user.name + ' a arrêté les paris pour le tournoi)');
+		room.addRaw("<div class=\"broadcast-green\"><b>Les paris pour ce tournoi sont arrêtés!</b><br />À la fin du tournoi, les paris seront vérifiés.</div>");
 		room.update();
 	},
 	
 	apostartour: 'tourbet',
 	tourbet: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
-		if (!tourStatus) return this.sendReply("Las apuestas no estaban abiertas.");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
+		if (!tourStatus) return this.sendReply("Les paris ne sont pas ouverts.");
 		if (!Tournaments.tournaments[room.id]) {
 			forceEndTourBets();
 			tourStatus = false;
 			tourBets = {};
-			return this.sendReply("No había ningún torneo en la Sala");
+			return this.sendReply("Il n'y a aucun tournoi dans la salle.");
 		}
 		var params = target.split(',');
 		if (!params || params.length !== 2) return this.sendReply("Usage: /tourbet [player], [10/20/30]");
 		var money = parseInt(params[1]);
-		if (!params[0]) return this.sendReply("No se ha especificado ganador.");
+		if (!params[0]) return this.sendReply("Il n'y a pas de gagnant spécifié");
 		var tourUsers = Tournaments.tournaments[room.id].generator.getUsers();
 		var isInTour = false;
 		for (var i = 0; i < tourUsers.length; ++i) {
@@ -225,64 +225,64 @@ exports.commands = {
 				break;
 			}
 		}
-		if (!isInTour) return this.sendReply("Solo se puede apostar por un jugador del torneo.");
+		if (!isInTour) return this.sendReply("Vous ne pouvez parier que pour un membre du tournoi");
 		if (tourBets[user.userid]) this.parse('/canceltourbet');
-		if (!money || (money !== 10 && money !== 20 && money !== 30) || money > Shop.getUserMoney(user.name)) return this.sendReply("Solo se puede apostar 10, 20 o 30 pd. También puede que no tengas dinero suficiente.");
+		if (!money || (money !== 10 && money !== 20 && money !== 30) || money > Shop.getUserMoney(user.name)) return this.sendReply("Vous ne pouvez parier que 10; 20 ou 30pd. Il est possible que vous n'ayez pas la somme requise.");
 		tourBets[user.userid] = {
 			pd: money,
 			player: toId(params[0])
 		};
 		tourPrize += money;
 		Shop.removeMoney(user.name, money);
-		return this.sendReply("Has apostado " + money + " pd por el jugador " + getUserName(params[0]) + ". Puedes cambiar tu apuesta o cancelarla  con /canceltourbet.");
+		return this.sendReply("Vous pariez " + money + " pd pour le gagnant " + getUserName(params[0]) + ". Vous pouvez modifier ou annuler votre pari avec /canceltourbet.");
 	},
 	
 	cancelarapuesta: 'canceltourbet',
 	canceltourbet: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
-		if (!tourStatus) return this.sendReply("Las apuestas no estaban abiertas.");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino");
+		if (!tourStatus) return this.sendReply("Les paris ne sont pas ouverts.");
 		if (!Tournaments.tournaments[room.id]) {
 			forceEndTourBets();
 			tourStatus = false;
 			tourBets = {};
-			return this.sendReply("No había ningún torneo en la Sala");
+			return this.sendReply("Il n'y a aucun tounoi dans la salle.");
 		}
-		if (!tourBets[user.userid]) return this.sendReply("No habías apostado.");
+		if (!tourBets[user.userid]) return this.sendReply("Vous n'avez pas parié, vous ne pouvez donc pas annuler votre pari.");
 		Shop.giveMoney(user.name, tourBets[user.userid].pd);
 		tourPrize += (- tourBets[user.userid].pd);
 		delete tourBets[user.userid];
-		return this.sendReply("Se ha cancelado la apuesta anterior.");
+		return this.sendReply("Votre pari a été annulé.");
 	},
 	
 	apuestas: 'tourbets',
 	tourbets: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut être utilisée que dans le Casino.");
 		if (!this.canBroadcast()) return;
 		var betList = '';
 		for (var i in tourBets) {
-			betList += '<b>' + getUserName(i) + '</b> ha apostado <b>' + tourBets[i].pd + ' pd</b> por el jugador <b>' + getUserName(tourBets[i].player) + '</b>. <br />';
+			betList += '<b>' + getUserName(i) + '</b> a parié <b>' + tourBets[i].pd + ' pd</b> pour le joueur <b>' + getUserName(tourBets[i].player) + '</b>. <br />';
 		}
 		if (betList === '') {
-			this.sendReplyBox('No había aninguna apuesta registrada.');
+			this.sendReplyBox('Il n\'y avait pas de paris enregistré.);
 		} else {
 			this.sendReplyBox(betList);
 		}
 	},
 	
 	endtourbets: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut être utilisée que dans le Casino.");
 		if (toId(user.name) !== toId(Bot.config.name) && !this.can('casino')) return false;
-		if (!target) return this.sendReply("No se ha especificado ganador.");
+		if (!target) return this.sendReply("Aucun gagnant n'est spécifié.");
 		var winners = [];
 		var empty = true;
 		for (var i in tourBets) {
 			empty = false;
 			if (toId(tourBets[i].player) === toId(target)) winners.push(i);
 		}
-		if (empty) return this.sendReply("No había apuestas.");
+		if (empty) return this.sendReply("Il n'y a pas de paris.");
 		if (!winners || winners.length < 1) {
 			Shop.giveMoney('casino', tourPrize);
-			room.addRaw("<div class=\"broadcast-green\"><b>El torneo con apuestas ha terminado!</b><br /> Lamentablemente nadie había apostado por " + getUserName(target) + "</div>");
+			room.addRaw("<div class=\"broadcast-green\"><b>Le tournoi avec les paris est terminé !</b><br /> Malheureusement personne n'a parié pour " + getUserName(target) + "</div>");
 			room.update();
 		} else {
 			var winData = '';
@@ -290,7 +290,7 @@ exports.commands = {
 			for (var n = 0; n < (winners.length - 1); ++n) {
 				Shop.giveMoney(toId(winners[n]), tourPrize * (tourBets[toId(winners[n])].pd / 10));
 				targetUser = Users.get(winners[n]);
-				if (targetUser && targetUser.connected) targetUser.popup('Felicidades, Has ganado ' + tourPrize * (tourBets[toId(winners[n])].pd / 10) + ' pd por acertar en las apuestas del torneo del casino!');
+				if (targetUser && targetUser.connected) targetUser.popup('Félicitation, vous avez gagné ' + tourPrize * (tourBets[toId(winners[n])].pd / 10) + ' pd pour avoir gagné vos paris lors de ce tournoi dans le Casino ! ');
 				if (n === 0) {
 					winData += getUserName(winners[n]);
 				} else {
@@ -299,10 +299,10 @@ exports.commands = {
 			}
 			Shop.giveMoney(toId(winners[winners.length - 1]), tourPrize * (tourBets[toId(winners[n])].pd / 10));
 			targetUser = Users.get(winners[winners.length - 1]);
-			if (targetUser && targetUser.connected) targetUser.popup('Felicidades, Has ganado ' + tourPrize * (tourBets[toId(winners[winners.length - 1])].pd / 10) + ' pd por acertar en las apuestas del torneo del casino!');
+			if (targetUser && targetUser.connected) targetUser.popup('Félicitation, vous avez gagné ' + tourPrize * (tourBets[toId(winners[winners.length - 1])].pd / 10) + '  pd pour avoir gagné vos paris lors de ce tournoi dans le Casino !');
 			if (winners.length > 1) winData += ' y ';
 			winData += getUserName(winners[winners.length - 1]);
-			room.addRaw("<div class=\"broadcast-green\"><b>El torneo con apuestas ha terminado!</b><br />Felicidades a " + winData + " por acertar. El premio depende de los pd apostados: " + tourPrize + " pd (x1/x2/x3)</div>");
+			room.addRaw("<div class=\"broadcast-green\"><b> Le tournoi à paris est terminé ! </b><br />Félicitations à " + winData + " pour avoir gagné. Le prix dépend des paris :  " + tourPrize + " pd (x1/x2/x3)</div>");
 			room.update();
 		}
 		tourBets = {};
@@ -313,20 +313,20 @@ exports.commands = {
 	nr: 'newwheel',
 	nuevaruleta: 'newwheel',
 	newwheel: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut être utilisée ailleurs que dans le Casino.");
 		if (!casinoOwners[user.userid] && !this.can(defaultPermission, room)) return false;
-		if (wheelStatus) return this.sendReply("Ya hay una ruleta en marcha.");
+		if (wheelStatus) return this.sendReply("Il y a déjà un jeu de roulette en marche.");
 		var params = target.split(',');
 		if (!params || params.length !== 2) return this.sendReply("Usage: /nuevaruleta [initprize], [size]");
 		var initPrize = parseInt(params[0]);
 		var wheelSize = parseInt(params[1]);
-		if (initPrize && initPrize > 1000 && !casinoOwners[user.userid] && user.can('casino')) return this.sendReply("No tienes autoridad para apostar más de 1000 pd en una sola ruleta.");
-		if (!wheelSize || wheelSize < 8 || wheelSize > 20) return this.sendReply("El tamaño debe ser de 8 a 20 casillas");
+		if (initPrize && initPrize > 1000 && !casinoOwners[user.userid] && user.can('casino')) return this.sendReply("Vous n'avez pas l'autorisation de parier plus de 1000pd pour un jeu de roulette.");
+		if (!wheelSize || wheelSize < 8 || wheelSize > 20) return this.sendReply("Il doit y avoir entre 8 et 20 Pokémon");
 		if (initPrize && initPrize >= 10 && initPrize <= Shop.getUserMoney('casino')) {
 			prize = initPrize;
 			Shop.removeMoney('casino', initPrize);
 		} else {
-			return this.sendReply("Debes establecer un premio inicial superior a 10 pd pero inferior al total de beneficios del casino.");
+			return this.sendReply("Vous devez définir une somme de départ supérieure à 10pd, mais inférieur aux revenus totaux du casino.");
 		}
 		var keys = [];
 		var pokemonLeft = 0;
@@ -351,31 +351,31 @@ exports.commands = {
 		for (var j = 0; j < wheelOptions.length; j++) {
 			htmlDeclare += '<img src="http://play.pokemonshowdown.com/sprites/xyani/' + toId(wheelOptions[j]) + '.gif" title="' + wheelOptions[j] +'" />&nbsp;';
 		}
-		htmlDeclare += '<br /><br /><b>Usa /apostar [pokemon] para jugar a la ruleta. Cuesta 10 pds.</b><br /><b>El ganador o ganadores se llevan un premio de ' + prize + ' pd + 20 pd por participante.</b></center></div>';
-		this.privateModCommand('(' + user.name + ' ha iniciado un juego de ruleta. Premio inicial: ' + initPrize + ' pd ; Casillas: ' + wheelSize + ')');
-		room.addRaw('<div class="broadcast-blue"><center><h1>Juego de Ruleta</h1><b>' + htmlDeclare);
+		htmlDeclare += '<br /><br /><b>Usa /apostar [pokemon]Pour jouer au jeu de la roulotte. Cela vous coûtera 10 pd.</b><br /><b>Le ou les gagnant recevons un prix de ' + prize + ' pd + 20pd par participants.</b></center></div>';
+		this.privateModCommand('(' + user.name + ' a lancé un jeu de roulette. Prix de départ :  ' + initPrize + ' pd ; Nombre de Pokémon : ' + wheelSize + ')');
+		room.addRaw('<div class="broadcast-blue"><center><h1>Jeu de la roulette</h1><b>' + htmlDeclare);
 		room.update();
 	},
 	
 	finruleta: 'endwheel',
 	endwheel: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		if (!casinoOwners[user.userid] && !this.can(defaultPermission, room)) return false;
-		if (!wheelStatus) return this.sendReply("No hay ninguna ruleta en marcha.");
+		if (!wheelStatus) return this.sendReply("Il n'y a pas de jeu de roulette en marche.");
 		var pkm = wheelOptions[Math.floor(Math.random() * wheelOptions.length)];
-		var htmlDeclare = '<div class="broadcast-green"><center><h1>Juego de Ruleta Finalizado</h1><h3>La ruleta ha girado y el Pokemon elegido es ' + pkm + '</h3><img src="http://play.pokemonshowdown.com/sprites/xyani/' + toId(pkm) + '.gif" title="' + pkm + '" /> <br /><br /><b>';
+		var htmlDeclare = '<div class="broadcast-green"><center><h1>Le jeu de la roulette est terminé!o</h1><h3>Le jeu de la roulette est terminé ! La roulette s\'est arrêtée sur ' + pkm + '</h3><img src="http://play.pokemonshowdown.com/sprites/xyani/' + toId(pkm) + '.gif" title="' + pkm + '" /> <br /><br /><b>';
 		var winners = [];
 		for (var i in wheelBets) {
 			if (toId(wheelBets[i]) === toId(pkm)) winners.push(i);
 		}
 		if (!winners || winners.length < 1) {
-			htmlDeclare += 'Lamentablemente nadie había apostado por este Pokemon.</b>';
+			htmlDeclare += 'Malheureusement personne n\'a parié pour ce pokémon.</b>';
 			Shop.giveMoney('casino', prize);
 		} else if (winners.length === 1) {
-			htmlDeclare += '&iexcl;Felicidades a ' + getUserName(winners[0]) + ' por ganar en la ruleta!<b /> Premio entregado al ganador: ' + prize + ' pd.</b>';
+			htmlDeclare += '&iexcl; Félicitation à ' + getUserName(winners[0]) + 'pour avoir gagné le jeu de la roulette ! <b /> Prix décerné aux gagnants : ' + prize + ' pd.</b>';
 			Shop.giveMoney(toId(winners[0]), prize);
 		} else {
-			htmlDeclare += '&iexcl;Felicidades a ';
+			htmlDeclare += '&iexcl; Félicitation à ';
 			for (var n = 0; n < (winners.length - 1); ++n) {
 				Shop.giveMoney(toId(winners[n]), prize);
 				if (n === 0) {
@@ -385,98 +385,98 @@ exports.commands = {
 				}
 			}
 			Shop.giveMoney(toId(winners[winners.length - 1]), prize);
-			htmlDeclare += ' y ' + getUserName(winners[winners.length - 1]) + ' por ganar en la ruleta!<b /> Premio entregado a los ganadores: ' + prize + ' pd.</b>';
+			htmlDeclare += ' y ' + getUserName(winners[winners.length - 1]) + ' pour avoir gagné au jeu de la roulette! <b /> Prix décerné aux gagnants :  ' + prize + ' pd.</b>';
 		}
 		htmlDeclare += '</center></div>';
 		wheelStatus = false;
 		wheelOptions = [];
 		wheelBets = {};
 		prize = 0;
-		this.privateModCommand('(' + user.name + ' ha finalizado el juego de ruleta)');
+		this.privateModCommand('(' + user.name + 'a mis fin au jeu de la roulette.)');
 		room.addRaw(htmlDeclare);
 		room.update();
 	},
 	
 	ruleta: 'wheel',
 	wheel: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
-		if (!wheelStatus) return this.sendReply("No hay ninguna ruleta en marcha.");
+		if (room.id !== 'casino') return this.sendReply("Celle commande ne peut pas être utilisée ailleurs que dans le Casino.");
+		if (!wheelStatus) return this.sendReply("Il n'y a pas de jeu de la roulette en marche.");
 		if (!this.canBroadcast()) return;
 		var optionsList = '';
 		for (var j = 0; j < wheelOptions.length; j++) {
 			optionsList += wheelOptions[j] + ", ";
 		}
-		return this.sendReplyBox("<b>Opciones de la ruleta:</b> " + optionsList + '<br /><b>Premio: </b>' + (prize) + ' pd.');
+		return this.sendReplyBox("<b>Options de la roulette :</b> " + optionsList + '<br /><b>Prix: </b>' + (prize) + ' pd.');
 	},
 	
 	apostar: 'betwheel',
 	betwheel: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
-		if (!wheelStatus) return this.sendReply("No hay ninguna ruleta en marcha.");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut pas être utilisée ailleurs que dans le Casino.");
+		if (!wheelStatus) return this.sendReply("Il n'y a pas de jeu de la roulette en marche.");
 		var pokemonId = toId(target);
 		var validPkm = false;
 		for (var j = 0; j < wheelOptions.length; j++) {
 			if (pokemonId === toId(wheelOptions[j])) validPkm = true;
 		}
-		if (!validPkm) return this.sendReply(pokemonId + " no es una opción de la ruleta. Para ver las opciones escribe /ruleta");
+		if (!validPkm) return this.sendReply(pokemonId + " n'est pas une option du jeu de la roulette. Pour voir les options, tapez /ruleta");
 		if (wheelBets[user.userid]) {
 			wheelBets[user.userid] = pokemonId;
-			return this.sendReply("Has cambiado tu apuesta a " + pokemonId);
+			return this.sendReply("Vous avez changé votre pari pour " + pokemonId);
 		} else {
-			if (Shop.getUserMoney(user.name) < 10) return this.sendReply("No tienes suficiente dinero.");
+			if (Shop.getUserMoney(user.name) < 10) return this.sendReply("Vous n'avez pas assez d'argent");
 			wheelBets[user.userid] = pokemonId;
 			Shop.removeMoney(user.name, 10);
 			prize += 20;
-			return this.sendReply("Has apostado por " + pokemonId + ". Puedes cambiar tu apuesta tantas veces como quieras (sin coste) hasta que termine el juego de ruleta.");
+			return this.sendReply("Vous avez parié sur " + pokemonId + ". Vous pouvez changer votre pari en relançant la commande mais un autre Pokémon, sans coûts supplémentaires, jusqu'à ce que le jeu de la roulette soit terminé.");
 		}
 	},
 	
 	beneficios: 'casinomoney',
 	casinomoney: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut être utilisée que dans le Casino.");
 		if (!this.canBroadcast()) return;
 		var money = Shop.getUserMoney('casino');
-		if (money < 1) return this.sendReply("No había beneficios en el casino.");
-		return this.sendReply("Beneficios del Casino: " + money + ' Pds');
+		if (money < 1) return this.sendReply("Le Casino n'a aucun bénéfices.");
+		return this.sendReply("Bénéfices du Casino: " + money + ' Pd');
 	},
 	
 	darfondos: 'addcasinomoney',
 	addcasinomoney: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		if (!casinoOwners[user.userid] && !this.can('givemoney')) return false;
 		var money = Shop.getUserMoney(user.name);
 		var targetMoney = parseInt(target);
-		if (!targetMoney || targetMoney < 1) return this.sendReply("La cantidad especificada no es válida.");
-		if (money < targetMoney) return this.sendReply("No tenías suficiente dinero.");
+		if (!targetMoney || targetMoney < 1) return this.sendReply("La quantité que vous avez insérée n'est pas valide.");
+		if (money < targetMoney) return this.sendReply("Vous n'avez pas assez d'argent.");
 		Shop.transferMoney(user.name, 'casino', targetMoney);
-		this.privateModCommand('(' + user.name + ' ha aportado fondos al casino: ' + targetMoney + ' Pds)');
+		this.privateModCommand('(' + user.name + ' a fait un don de ' + targetMoney + ' Pds pour le Casino. Merci ! )');
 	},
 
 	retirarfondos: 'transfercasinomoney',
 	obtenerfondos: 'transfercasinomoney',
 	transfercasinomoney: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		if (!casinoOwners[user.userid] && !this.can('givemoney')) return false;
 		var money = Shop.getUserMoney('casino');
 		var targetMoney = parseInt(target);
-		if (!targetMoney || targetMoney < 1) return this.sendReply("La cantidad especificada no es válida.");
-		if (money < targetMoney) return this.sendReply("No había beneficios suficientes en el casino.");
+		if (!targetMoney || targetMoney < 1) return this.sendReply("La quantité que vous avez insérée n'est pas valide.");
+		if (money < targetMoney) return this.sendReply("Il n'y a pas de bénéfices suffisants dans le Casino.");
 		Shop.transferMoney('casino', user.name, targetMoney);
-		this.privateModCommand('(' + user.name + ' ha retirado fondos del casino: ' + targetMoney + ' Pds)');
+		this.privateModCommand('(' + user.name + ' a retiré ' + targetMoney + ' Pds des fonds du Casino.)');
 	},
 
 	slot: 'tragaperras',
 	slotmachine: 'tragaperras',
 	tragaperras: function (target, room, user) {
 		if (!this.canBroadcast()) return;
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		var money = parseInt(target);
 		var now = Date.now();
-		if (!money || money < 1 || money > 50) return this.sendReply("Solo se puede apostar de 1 a 50 pd");
+		if (!money || money < 1 || money > 50) return this.sendReply("Vous ne pouvez parier que entre 1 et 50 pd.");
 		if (!user.lastSlotCmd) user.lastSlotCmd = 0;
-		if ((now - user.lastSlotCmd) * 0.001 < 2) return this.sendReply("Por favor espera " + Math.floor(2 - (now - user.lastSlotCmd) * 0.001) + " segundos antes de volver a usar la tragaperras.");
+		if ((now - user.lastSlotCmd) * 0.001 < 2) return this.sendReply("S'il vous plaît, attendez " + Math.floor(2 - (now - user.lastSlotCmd) * 0.001) + " secondes avant de réutiliser cette commande.");
 		user.lastSlotCmd = now;
-		if (Shop.getUserMoney(user.name) < money) return this.sendReply("No tienes suficiente dinero");
+		if (Shop.getUserMoney(user.name) < money) return this.sendReply("Vous n'avez pas assez d'argent.");
 		Shop.removeMoney(user.name, money);
 		var slotSymbols = ["\u2605", "\u2665", "@", "%", "$", "&", "#", "+", "~"];
 		var symbolA = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
@@ -484,25 +484,25 @@ exports.commands = {
 		var symbolC = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
 		if (symbolA === symbolB && symbolB === symbolC && symbolA === '\u2605') {
 			Shop.giveMoney(user.name, money * 5);
-			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Felicidades! Tu apuesta se multiplica por 5!");
+			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Félicitation! Votre mise est multipliée par 5 !");
 		} else if (symbolA === symbolB && symbolB === symbolC) {
 			Shop.giveMoney(user.name, money * 4);
-			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Felicidades! Tu apuesta se multiplica por 4!");
+			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Félicitation! Votre mise est multipliée par 4 !");
 		} else if ((symbolA === symbolB && symbolA === '\u2605') || (symbolA === symbolC && symbolA === '\u2605') || (symbolB === symbolC && symbolB === '\u2605')) {
 			Shop.giveMoney(user.name, money * 3);
-			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Felicidades! Tu apuesta se multiplica por 3!");
+			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Félicitation! Votre mise est multipliée par 3 !");
 		} else if ((symbolA === symbolB || symbolA === symbolC || symbolB === symbolC) && (symbolA === '\u2605' || symbolB === '\u2605' || symbolC === '\u2605')) {
 			Shop.giveMoney(user.name, money * 3);
-			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Felicidades! Tu apuesta se multiplica por 3!");
+			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Félicitation! Votre mise est multipliée par 3 !");
 		} else if (symbolA === symbolB || symbolB === symbolC || symbolA === symbolC) {
 			Shop.giveMoney(user.name, money * 2);
-			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Felicidades! Tu apuesta se multiplica por 2!");
+			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Félicitation! Votre mise est multipliée par 2 !");
 		} else if (symbolA === '\u2605' || symbolB === '\u2605' || symbolC === '\u2605') {
 			Shop.giveMoney(user.name, money);
-			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Recuperas lo apostado!");
+			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Vous récupèrez votre mise !");
 		} else {
 			Shop.giveMoney('casino', money);
-			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Has perdido! Intentalo de nuevo.");
+			return this.sendReply("|html| <b>" + symbolA + symbolB + symbolC + "</b> - Vous avez perdu ! Essayez à nouveau !");
 		}
 	},
 	
@@ -511,14 +511,14 @@ exports.commands = {
 			user.joinRoom('casino');
 			return;
 		}
-		var casinoInfo = 'Bienvenido al casino: En esta sala puedes apostar tus PokeDolares en diversos juegos de azar y ganar dinero fácil si tienes suerte. Los actuales juegos de azar son los siguientes:\n -Tragaperras: Usa /slot [1-50] | Puedes perder los Pd o que tu apuesta de multiplique hasta x5. \n -Ruleta: El staff del casino debe iniciarla con /nuevaruleta y hacerla girar con /finruleta. Nota: el premio inicial viene de los fondos del casino alimentados de las tragaperras y de las ruletas sin ganador. Para los usuarios se apuesta por un Pokemon con /apostar [pokemon] y para ver las opciones /ruleta \n -Bingo: Se inicia con /nuevobingo y se participa con /buytable. Se van diciendo números aleatorios y quien antes tenga una tablilla con todos sus números dichos gana. \n -Apuestas: Se inicia con /abrirapuestas y /cerrarapuestas pudiendo apostar por un jugador como posible ganador del torneo mediante el comando /tourbet. \n \n';
+		var casinoInfo = 'Bienvenue dans le Casino: Dans cette salle, vous pouvez utiliser vos LQPounds pour jouer à de nombreux jeux, et gagner des LQP pounds si vous avez de la chance ! Les jeux de hasard actuels sont les suivants :\n -Tragaperras: Utilisez /slot [1-50] | Vous pouvez perdre vos LQPounds ou gagner jusqu\'à 5x votre mise ! \n -Jeu de la roulette : Le staff du Casino peut démarrer un jeu de roulette avec /nuevaruleta et le terminer avec /finruleta. Note: Le prix inicial vient des bénéfices du Casino. Les users peuvent miser sur un Pokémon avec la commande /apostar [pokemon] et voir les opcions avec /ruleta \n -Bingo: Il se lance avec /nuevobingo et on peut y participer avec /buytable. Le serveur va dire des numéros au hasard et lorsque quelqu\'un a tous les numéros sur son ticket, il gagne, et le jeu est terminé. \n -Paris: Ils se lancent avec /abrirapuestas et se terminent avec /cerrarapuestas pour miser sur un des joueurs d\'un tournoi. Il est possible de miser sur le futur (ou non) gagnant avec /tourbet. \n \n';
 		var owners = Object.keys(casinoOwners);
 		if (!owners || owners.length < 1) {
-			casinoInfo += 'No hay dueños del casino aún.';
+			casinoInfo += 'Il n\'y a pas encore de propriétaires du Casino..';
 		} else if (owners.length === 1) {
-			casinoInfo += 'Actual dueño del casino (con acceso a los fondos): ' + getUserName(owners[0]);
+			casinoInfo += 'Les actuels propriétaires du Casino (avec les administrateurs) sont :  ' + getUserName(owners[0]);
 		} else {
-			casinoInfo += 'Actuales dueños del casino (con acceso a los fondos): ' + getUserName(owners[0]);
+			casinoInfo += 'Les actuels propriétaires du Casino (avec les administrateurs) sont : ' + getUserName(owners[0]);
 			for (var n = 1; n < (owners.length - 1); ++n) {
 				casinoInfo += ', ' + getUserName(owners[n]);
 			}
@@ -528,20 +528,20 @@ exports.commands = {
 	},
 	
 	casinoowner: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino. ");
 		if (!this.can('casino')) return;
-		if (!target) return this.sendReply("No has especificado ningún usuario.");
+		if (!target) return this.sendReply("Vous n'avez spécifié aucun utisateur.");
 		var targetUser = Users.get(target);
-		if (!targetUser) return this.sendReply("El usuario no existe o no está disponible.");
+		if (!targetUser) return this.sendReply("L'utilisateur que vous avez spécifié n'existe pas ou n'est pas disponible.");
 		casinoOwners[targetUser.userid] = 1;
-		this.addModCommand(targetUser.name + " ha sido nombrado dueño del casino por " + user.name + '.');
+		this.addModCommand(targetUser.name + " a été nommé propriétaire du Casino par " + user.name + '.');
 		writeCasinoData();
 	},
 	
 	casinodeowner: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		if (!this.can('casino')) return;
-		if (!target) return this.sendReply("No has especificado ningún usuario.");
+		if (!target) return this.sendReply("Vous n'avez spécifié aucun utisateur.");
 		var targetUser = Users.get(target);
 		var userName;
 		if (!targetUser) {
@@ -549,46 +549,46 @@ exports.commands = {
 		} else {
 			userName = targetUser.name;
 		}
-		if (!casinoOwners[toId(target)]) return this.sendReply("El usuario especificado no era dueño del casino.");
+		if (!casinoOwners[toId(target)]) return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
 		delete casinoOwners[toId(target)];
-		this.privateModCommand("(" + userName + " ha sido degradado del puesto de dueño del casino por " + user.name + '.)');
-		if (targetUser && targetUser.connected) targetUser.popup(user.name + " te ha degradado del puesto de dueño del casino.");
+		this.privateModCommand("(" + userName + " s'est vu retiré le rang de propriétaire du Casino par " + user.name + '.)');
+		if (targetUser && targetUser.connected) targetUser.popup(user.name + " t'a dégradé du poste de propriétaire du Casino.");
 		writeCasinoData();
 	},
 	
 	permisoevento: 'eventspermission',
 	permisoeventos: 'eventspermission',
 	eventspermission: function (target, room, user) {
-		if (room.id !== 'casino') return this.sendReply("Este comando solo puede ser usado en una sala de Casino");
-		if (!target) return this.sendReply("No has especificado ningún rango.");
+		if (room.id !== 'casino') return this.sendReply("Cette commande ne peut que être utilisée dans le Casino.");
+		if (!target) return this.sendReply("Vous n'avez spécifié aucun rang.");
 		if (defaultPermission === 'casino' && !casinoOwners[user.userid] && !this.can('casino')) return false;
 		switch (target.trim()) {
 			case '+':
 				if (!casinoOwners[user.userid] && !this.can('declare', room) && !this.can('casino')) return false;
 				defaultPermission = 'broadcast';
-				this.privateModCommand("(" + user.name + " establecido el permiso mínimo para hacer eventos en el casino a +)");
+				this.privateModCommand("(" + user.name + " établi le rang minimal pour utiliser les commandes du Casino à +)");
 				break;
 			case '%':
 				if (!casinoOwners[user.userid] && !this.can('declare', room) && !this.can('casino')) return false;
 				defaultPermission = 'staff';
-				this.privateModCommand("(" + user.name + " establecido el permiso mínimo para hacer eventos en el casino a %)");
+				this.privateModCommand("(" + user.name + "établi le rang minimal pour utiliser les commandes du Casino à %)");
 				break;
 			case '@':
 				if (!casinoOwners[user.userid] && !this.can('declare', room) && !this.can('casino')) return false;
 				defaultPermission = 'ban';
-				this.privateModCommand("(" + user.name + " establecido el permiso mínimo para hacer eventos en el casino a @)");
+				this.privateModCommand("(" + user.name + "établi le rang minimal pour utiliser les commandes du Casino à @)");
 				break;
 			case '#':
 				if (!casinoOwners[user.userid] && !this.can('declare', room) && !this.can('casino')) return false;
 				defaultPermission = 'declare';
-				this.privateModCommand("(" + user.name + " establecido el permiso mínimo para hacer eventos en el casino a #)");
+				this.privateModCommand("(" + user.name + "établi le rang minimal pour utiliser les commandes du Casino à #)");
 				break;
 			case '~':
 			case 'OFF':
 			case 'off':
 				if (!casinoOwners[user.userid] && !this.can('casino')) return false;
 				defaultPermission = 'casino';
-				this.privateModCommand("(" + user.name + " establecido el permiso mínimo para hacer eventos en el casino a ~)");
+				this.privateModCommand("(" + user.name + "établi le rang minimal pour utiliser les commandes du Casino à ~)");
 				break;
 			default:
 				return this.sendReply("Rangos: +, %, @, # y ~");
