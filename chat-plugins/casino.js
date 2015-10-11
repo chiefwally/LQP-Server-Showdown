@@ -263,7 +263,7 @@ exports.commands = {
 			betList += '<b>' + getUserName(i) + '</b> a parié <b>' + tourBets[i].pd + ' pd</b> pour le joueur <b>' + getUserName(tourBets[i].player) + '</b>. <br />';
 		}
 		if (betList === '') {
-			this.sendReplyBox('Il n\'y avait pas de paris enregistré.);
+			this.sendReplyBox('Il n\'y avait pas de paris enregistré.');
 		} else {
 			this.sendReplyBox(betList);
 		}
