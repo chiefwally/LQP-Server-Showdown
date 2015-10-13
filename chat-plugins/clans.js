@@ -600,7 +600,7 @@
 		var userk = Users.getExact(params[0]);
 		if (!userk || !userk.connected) return this.sendReply("L'utilisateur " + params[0] + " n'existe pas ou n'est pas disponible.");
 		if (!Clans.addInvite(clanUser, params[0]))
-			this.sendReply("L'utilisateur n'a pas pu être invité. N'existe-t-il pas, avait-il déjà été invité ou appartient-il déjà à un autre clan ?);
+			this.sendReply("L'utilisateur n'a pas pu être invité. N'existe-t-il pas, avait-il déjà été invité ou appartient-il déjà à un autre clan ?");
 		else {
 			clanUser = Clans.findClanFromMember(user.name);
 			userk.popup(user.name + " vous a invité à rejoindre le clan " + clanUser + ".\nPour accepter son invitation, écris /acceptclan " + clanUser);
