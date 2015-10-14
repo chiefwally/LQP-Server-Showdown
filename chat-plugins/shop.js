@@ -14,11 +14,11 @@ exports.commands = {
 			'<tr><td>Chatroom</td><td>Acheter une room. Celle-ci peut être privée ou publique en fonction du motif de sa création. </td><td>10000</td></tr>' +
 			'<tr><td>CustomTC</td><td>Acheter une carte de dresseur personalisée (à partir de code html). Contacter un administrateur si le code est trop long pour un message.</td><td>8000</td></tr>' +
 			'<tr><td>CustomAvatar</td><td>Acheter un avatar personalisé. ,L\'image doit être de taille 80x80. Veuillez contacter un administrateur afin d\'obtenir cet article.</td><td>6000</td></tr>' +
-			'<tr><td>Symbole</td><td>Acheter l\'accès à la commecepto /customsymbol qui permet de choisir un symbole (exepté ceux du staff) qui apparaîtra dans la liste des users.</td><td>4000</td></tr>' +
+			'<tr><td>Symbole</td><td>Acheter l\'accès à la commande /customsymbol qui permet de choisir un symbole (exepté ceux du staff) qui apparaîtra dans la liste des users.</td><td>4000</td></tr>' +
 			'<tr><td>TC</td><td>Acheter une carte de dresseur modifiable avec /tcimage et une phrase de dressur modifiable avec /tcphrase</td><td>3000</td></tr>' +
 			'<tr><td>Avatar</td><td>Si tu as déjà un avatar personalisé. Tu peux le changer pour un autre différent.</td><td>1000</td></tr>' +
 			'<tr><td>Sprite</td><td>Ajoute le sprite d\'un pokémon à ta carte de dresseur classique. 6 au maximum. Les Pokémon peuvent être changés avec la commande /tcpokemon</td><td>100</td></tr>' +
-			'</tbody></table><br /> Pour acheter un article utilise la commande /buy (aricle)' +
+			'</tbody></table><br /> Pour acheter un article utilise la commande /buy (article)' +
 			'<br /> Pour les articles qui ne peuvent pas être achetés directement, contactez un administrateur. Pour plus d\'informations utilise /shophelp' +
 			'</center>'
 		);
