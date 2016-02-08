@@ -16,22 +16,22 @@
 			"/warlog (clan/membre) - Montre les 10 dernières wars d'un clan.<br />" +
 			"/inviteclan - Invite un utilisateur à rejoindre le clan. Rang Officiel nécessaire.<br />" +
 			"/expulseclan (membre) - Expulse un membre du clan. Nécessite le poste de Lieutenant.<br />" +
-			"/acceptclan (clan) - Accepter l'invitation offerte par un clan.<br />" +
+			"/acceptclan (clan) - Accepter l'invitation en d'un clan.<br />" +
 			"/invitationsclan (clan/membre) - Montre la liste des utilisateurs invités au sein d'un clan.<br />" +
 			"/removeinvitations - Efface toutes les invitations d'un clan. Rang de Chef du clan nécessaire.<br />" +
-			"/leaveclan - Abandonner le clan au sein duquel vous êtes.<br />" +
+			"/leaveclan - Abandonner votre clan.<br />" +
 			"<br />" +
 			"<big><b>Commandes de Staff de clan:</b></big><br /><br />" +
 			"/chef (membre) - Assigne le rang de Chef du Clan à quelqu'un. Requiert le rang global d'Administrateur.<br />" +
 			"/lieutenant (membre) - Assigne le rang de Lieutenant du Clan à quelqu'un. Requiert le rang de Chef du Clan.<br />" +
 			"/officiel (membre) - Assigne le rang d'Officiel du Clan à quelqu'un. Requiert le rang de Lieutenant du Clan.<br />" +
 			"/demoteclan (membre) - Efface un utilisateur du staff du clan. Requiert le rang de Chef du Clan ou d'Administrateur.<br />" +
-			"/deviseclan (lema) - Établit la devise du clan. Requiert le rang de Chef du Clan.<br />" +
+			"/deviseclan (phrase) - Établit la devise du clan. Requiert le rang de Chef du Clan.<br />" +
 			"/logoclan (logo) - Établit le logo du clan. Requiert le rang de Chef du Clan.<br />" +
 			"/closeclanroom - Empêche l'accès à la room du clan à tous ceux qui n'en font pas partie, hormis les Administrateurs.<br />" +
 			"/openclanroom - Réautorise l'accès à la room du clan à ceux qui n'en font pas partie.<br />" +
 			"/fjg - Appelle tous les membres du clan à rejoindre la salle du clan.<br />" +
-			"/rk - Expulse un utilisateur d'une room. Rang @ nécessité.<br />" +
+			"/rk - Expulse un utilisateur d'une room. Rang @ nécessaire.<br />" +
 			"<br />" +
 			"<big><b>Commandes Administratives:</b></big><br /><br />" +
 			"/createclan &lt;name> - Crée un clan.<br />" +
